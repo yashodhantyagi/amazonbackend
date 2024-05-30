@@ -1,0 +1,212 @@
+> Structure
+Controllers
+Routes
+Models
+script.js
+.gitignore
+
+> Terminal
+npm init
+npm i express
+npm i nodemon -D
+
+> script.js
+const express = require('express');
+const app = express();
+app.listen(5500);
+
+> Create productsRoute.js inside Routes folder and create productRouter
+const express = require("express");
+const productRouter = express.Router();
+
+
+> Create productsController.js inside Controllers
+const getAllProducts = (req, res) => {
+  res.json({
+    status: "success",
+    results: 0,
+    data: {
+      products: [],
+    },
+  });
+};
+
+module.exports = {
+  getAllProducts,
+};
+
+> Import productsController in productsRoute.js
+const productsController = require("../controllers/productsController");
+
+> Handle route for get method and export it
+productRouter.route("/").get(productsController.getAllProducts); // route handling
+module.exports = productRouter;
+
+> Import productRouter in script.js and assign it
+const productRouter = require("./routes/productsRoute"); // importing router
+app.use('/api/products', productRouter); // assigning router
+
+> Download MongoDB Compass GUI
+username: root
+password: abcd1234
+
+Connection String:
+mongodb+srv[:]//root:abcd1234@cluster0[.]iw1yf9v[.]mongodb[.]net/
+
+when error => Go to Network Access > IP Access List > Add > Access From Anywhere
+
+To change password => Database Access > Edit DB
+
+> create a new DB named amazon_backend
+> collections: products
+
+> Terminal
+npm install mongodb
+
+we have these variables such as db name, db user, etc in ENV file
+
+> Go to mongoDB Atlas website and go to deployment section > Go to Database > click on connect > install mongoose and copy connectionString url and save in script.js
+> Also hardcode variable  in your connectionString.
+const url =
+  "mongodb+srv://$_USERNAME_$:$_PASSWORD_$@cluster0.iw1yf9v.mongodb.net/$_DB_NAME_$?retryWrites=true&w=majority&appName=Cluster0";
+
+const dbUser = "root";
+const dbPassword = "abcd1234";
+const dbName = "amazon_backend";
+
+mongoose/ plain  mongodb
+> import mongoose and establish Connection
+const mongoose = require("mongoose");
+mongoose.connect(dbLink).then(() => console.log("------Connected!------"));
+
+
+> Export productModel and comment OBJECT and SAVE code parts 
+module.exports = productModel;
+
+> Use mongoose Queries API to implement in your project
+
+!!REMEMBER: Queries are not Promises!!
+!!Mongoose queries are not promises. Queries are thenables, meaning they have a .then() method for async/await as a convenience. However, unlike promises, calling a query's .then() executes the query, so calling then() multiple times will throw an error.!!
+
+Remember that schema is to be written or defined only once and not more than that otherwise all data will be dropped!
+
+const obj = {
+  title: 'Titan Watch', 
+  price: 2000,
+  rating: 5,
+  description: "it is"
+}
+
+const {price, ...e} = obj; // destructuring 
+
+console.log(price);
+console.log(e);
+
+Q. Spread VS Rest Operators
+
+SearchQuery: remove property from JS object using rest operator.
+
+function sum(a, b) {
+  console.log(a+b);
+}
+sum(1);
+sum(1,2,3);
+sum(1,2,3,4);
+------------------------------------
+function sum(...a) {
+    // console.log(a);
+    let s = 0 
+    for (let i=0; i<a.length; i++) {
+        s += a[i];
+    }
+    console.log(s);
+}
+sum(1,2,3);
+sum(1);
+sum(1,2,3,4);
+-------------------------
+
+__v : version purpose
+_id?
+
+products
+users (properties: carts)
+orders
+reviews
+
+Concepts: 
+  - searching, 
+  - pagination, 
+  - queries
+
+// not instantly updating the website: When you wait for less load on your server,
+
+// Why queries include await? since mongoose has its own server which is requested by our server and then response is received from the DB server therefore queries are to awaited.
+
+
+> productsController.js Comment
+// const data = await productModel.find(query);
+
+> Node.js
+
+q = productModel.find()
+q = q.find({name}).find({price}).find({qty});
+
+const result = await q; // at this line it goes to DB and filters the respective results and receives a response.
+
+// await is very necessary to include in order to reach DB and get results.
+
+text matching
+
+DP : Above 1700
+DSA : Above 1800
+
+PAGINATION:
+
+offset(): Displacement from start
+limit()
+
+1, 2, , 4, 5, 6, 7, 8, 9, 10
+Page size: 3
+Start (initial: 1)
+Limit: 3
+
+page_num  offset  limit
+1 =>        0       3
+2 =>        
+
+sort before and then take data using skip => will give appropriate result
+
+
+// PUT, PATCH, QUERY
+
+REVIEW
+
+1. Number of times a person can review
+2. Publilc or Private reviews
+3. 
+
+
+Qs. images or videos?
+
+email
+title
+Date of review: default Date.now()
+updated
+images + videos
+product_id
+order_id / 2 orders => 2 reviews therefore we prefer product_id
+net_rating
+
+a => M, N
+b => M, N, P
+c => M, N, O
+d => O, P
+
+Millions of products
+Millions of reviews on a product
+
+product => review_id
+review => product_id
+
+Delivery date should be validated

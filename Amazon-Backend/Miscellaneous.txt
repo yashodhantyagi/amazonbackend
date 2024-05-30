@@ -1,0 +1,36 @@
+MongoDB
+
+=> is a no SQL database.
+=> No restriction => doc, graph, geo location formats are allowed.
+
+Pros:
+No need to keep things NULL, just keep things that have data and skip the ones which may have NULL
+
+Cons:
+Not present data that exists in some other record.
+
+Horizontal => Multiple computers process together
+Vertical => Each Computer has to have enough power to process data
+
+Vertical: scaling is expensive but easily maintained
+Mutiplie: when data is to be distributed.
+
+Digital Ocean, SQLite, AWS provides DB
+
+Q. NoSQL vs SQL?
+
+Mostly BSON things in NoSQL => JSON + datatype
+
+You are able to define what type of entry is allowed or Not
+DB: Atlas??
+
+In mongoose, you have schema
+example schema:
+
+{
+    name: string,
+    age: number
+}
+
+=> It creates Models, which creates objects/Documents
+
